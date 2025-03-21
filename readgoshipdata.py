@@ -5,8 +5,8 @@ from datetime import datetime
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 
-def GetGOSHIPN20data(datapath, target_col):
-    go = pd.read_parquet("datasets/goshipdataset.parquet")#(f"{datapath}allgoshipn2o.parquet")
+def GetGOSHIPN20data(target_col):
+    go = pd.read_parquet("datasets/goshipdataset.parquet")
 
     ## QC
     # during data compilation, already filtered out data where BTLNBR, CTDSAL, CTDTMP, and CTDPRS were flagged as bad
@@ -121,28 +121,3 @@ def TrainTestSplitByStations(go, test_split, random_state=100):
     go_training = go.iloc[training_inds, :]
     
     return go_training, training_inds, go_test, test_inds
-
-def TrainRandomForest(X, Y,n_cores, param_dict, random_state = 100, verbose = True):
-
-    # Set up work flow to test different parameter pairings
-    # if tune_hyperparameters == True, will use GridSearchCV to find
-    # optimal hyperparameters trained on the testing data
-
-    # n_cores: # of computational cores available None=1, or as many as specifiecd
-
-    RF = RandomForestRegressor(n_estimators=param_dict['n_estimators'],
-                               max_features=param_dict['max_features'],
-                               max_depth=param_dict['max_depth'],
-                               min_samples_split=param_dict['min_samples_split'],
-                               min_samples_leaf=param_dict['min_samples_leaf'],
-                                random_state = random_state, n_jobs=n_cores,
-                              criterion = param_dict['criterion'])
-
-    #'fit' implements RF hyperparameters on training dataset
-    # train random forest
-    #RF = RF.fit(X_train,Y_train)
-    RF = RF.fit(X, Y)
-
-    if verbose: print (f'Accuracy - : {RF.score(X,Y):.3f}')
-
-    return RF

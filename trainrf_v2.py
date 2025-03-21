@@ -22,12 +22,11 @@ from sklearn import metrics
 from joblib import dump
 
 # helper functions
-from initialize_paths import initialize_paths
 from ml_feature_lists import feature_lists
 from plottraintest import plottraintest
-from ellen_ml_fxns import GetGOSHIPN20data, TrainTestSplitByStations
+from readgoshipdata import GetGOSHIPN20data, TrainTestSplitByStations
 
-def load_data(datapath, target_col):
+def load_data(target_col):
     """
     DESCRIPTION
     -------------
@@ -45,8 +44,8 @@ def load_data(datapath, target_col):
     go_training    Training dataset
     go_test        Test dataset
     """
-    print(f"loading data from {datapath}")
-    go_v2 = GetGOSHIPN20data(datapath, target_col)
+    print(f"loading data")
+    go_v2 = GetGOSHIPN20data(target_col)
     go_v2 = go_v2.rename(columns = {'CT':'Temp','SA':'Salinity','NITRATE':'Nitrate'})
 
     # filter out flier
@@ -112,9 +111,8 @@ def main():
     Loads data, trains models on different feature sets, evaluates performance, and saves trained models.
     """
     sns.set_context("paper", rc = {"lines.linewidth":2.5, "font.size": 12,  "font.family": "Arial"})
-    datapath, argopath, outputpath, era5path = initialize_paths()
     feature_sets, feature_set_labels, argo_feature_sets = feature_lists()
-    go_training, go_test = load_data(datapath, "pN2O")
+    go_training, go_test = load_data("pN2O")
     
     chosenmodels = [1,2,3,4]
     allplotlabels = [["a", "b", "c"],
@@ -143,8 +141,8 @@ def main():
                    n_estimators=600, min_samples_leaf=1, min_samples_split = 2, random_state=100)
   
         # Save the trained model
-        dump(clf,f'{outputpath}/model{modelID}_rf_full.joblib')
-        print(f"model saved out to {outputpath}/model{modelID}_rf_full.joblib")
+        dump(clf,f'model{modelID}_rf_full.joblib')
+        print(f"model saved out to model{modelID}_rf_full.joblib")
         print("feature importances:", clf.feature_importances_)
         
         # Compute and print errors
@@ -158,10 +156,10 @@ def main():
         # Generate training vs. test plots
         plotlabels = allplotlabels[count]
         axes = allaxes[count]
-        plottraintest(fig, axes, plotlabels, go_training, go_test, feature_list, feature_labels, clf, outputpath)
+        plottraintest(fig, axes, plotlabels, go_training, go_test, feature_list, feature_labels, clf)
 
     plt.tight_layout()
-    plt.savefig('figures/methods/fullmodeltraintest.png', dpi=300, bbox_inches = "tight")
+    plt.savefig('figures/fullmodeltraintest.png', dpi=300, bbox_inches = "tight")
 
 if __name__ == "__main__":
     main()

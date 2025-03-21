@@ -56,8 +56,8 @@ Convert the computed air-sea N2O flux dataset into multiple formats with appropr
 This project is licensed under [MIT License](LICENSE).
 
 ## Citation
-If you use this code in your research, please cite appropriately:
-_(Add citation details or DOI when available.)_
+If you use this code in your research, please cite the paper:
+C.L. Kelly B.X. Chang A. Emmanuelli E. Park A. Macdonald & D.P. Nicholson (in prep). Low-pressure storms drive nitrous oxide emissions in the Southern Ocean.
 
 ## Contact
-For questions or collaborations, please contact _(your email or GitHub profile)_.
+For questions or collaborations, please contact Colette Kelly (https://github.com/ckelly314).

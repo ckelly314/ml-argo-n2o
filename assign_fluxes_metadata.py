@@ -488,128 +488,128 @@ def assign_fluxesmetadata(data):
     
     ds["FtL13noice"].attrs = {
         'long_name': 'Air-sea N2O flux',
-        'description': 'Air-sea N2O flux calculated with Wanninkhof et al., 2014 and no sea ice correction',
+        'description': 'Air-sea N2O flux calculated with Liang et al., 2013 and no sea ice correction',
         'units': 'umol/m2/day',
         'valid_min': -10,
         'valid_max': 50,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13stdevnoice"].attrs = {
         'long_name': 'Air-sea N2O flux uncertainty',
-        'description': 'Uncertainty in air-sea N2O flux calculated with Wanninkhof et al., 2014 and no sea ice correction',
+        'description': 'Uncertainty in air-sea N2O flux calculated with Liang et al., 2013 and no sea ice correction',
         'units': 'umol/m2/day',
         'valid_min': 0,
         'valid_max': 40,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL131atm"].attrs = {
         'long_name': 'Air-sea N2O flux',
-        'description': 'Air-sea N2O flux calculated with Wanninkhof et al., 2014 and 1 atm barometric pressure',
+        'description': 'Air-sea N2O flux calculated with Liang et al., 2013and 1 atm barometric pressure',
         'units': 'umol/m2/day',
         'valid_min': -10,
         'valid_max': 50,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13stdev1atm"].attrs = {
         'long_name': 'Air-sea N2O flux uncertainty',
-        'description': 'Uncertainty in air-sea N2O flux calculated with Wanninkhof et al., 2014 and 1 atm barometric pressure',
+        'description': 'Uncertainty in air-sea N2O flux calculated with Liang et al., 2013 and 1 atm barometric pressure',
         'units': 'umol/m2/day',
         'valid_min': 0,
         'valid_max': 40,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13medN2O"].attrs = {
         'long_name': 'Air-sea N2O flux',
-        'description': 'Air-sea N2O flux calculated with Wanninkhof et al., 2014 and the median Southern Ocean pN2O',
+        'description': 'Air-sea N2O flux calculated with Liang et al., 2013 and the median Southern Ocean pN2O',
         'units': 'umol/m2/day',
         'valid_min': -10,
         'valid_max': 50,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13stdevmedN2O"].attrs = {
         'long_name': 'Air-sea N2O flux uncertainty',
-        'description': 'Uncertainty in air-sea N2O flux calculated with Wanninkhof et al., 2014 and the median Southern Ocean pN2O',
+        'description': 'Uncertainty in air-sea N2O flux calculated with Liang et al., 2013 and the median Southern Ocean pN2O',
         'units': 'umol/m2/day',
         'valid_min': 0,
         'valid_max': 40,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
 
     ds["FtL13medK"].attrs = {
         'long_name': 'Air-sea N2O flux',
-        'description': 'Air-sea N2O flux calculated with Wanninkhof et al., 2014 and median piston velocities',
+        'description': 'Air-sea N2O flux calculated with Liang et al., 2013 and median piston velocities',
         'units': 'umol/m2/day',
         'valid_min': -10,
         'valid_max': 50,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13stdevmedK"].attrs = {
         'long_name': 'Air-sea N2O flux uncertainty',
-        'description': 'Uncertainty in air-sea N2O flux calculated with Wanninkhof et al., 2014 and median piston velocities',
+        'description': 'Uncertainty in air-sea N2O flux calculated with Liang et al., 2013 and median piston velocities',
         'units': 'umol/m2/day',
         'valid_min': 0,
         'valid_max': 40,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13WINDS"].attrs = {
         'long_name': 'Air-sea N2O flux',
-        'description': 'Air-sea N2O flux calculated with Wanninkhof et al., 2014 and 25% higher wind speeds',
+        'description': 'Air-sea N2O flux calculated with Liang et al., 2013and 25% higher wind speeds',
         'units': 'umol/m2/day',
         'valid_min': -10,
         'valid_max': 50,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13stdevWINDS"].attrs = {
         'long_name': 'Air-sea N2O flux uncertainty',
-        'description': 'Uncertainty in air-sea N2O flux calculated with Wanninkhof et al., 2014 and 25% higher wind speeds',
+        'description': 'Uncertainty in air-sea N2O flux calculated with Liang et al., 2013 and 25% higher wind speeds',
         'units': 'umol/m2/day',
         'valid_min': 0,
         'valid_max': 40,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13COMBINED"].attrs = {
         'long_name': 'Air-sea N2O flux',
-        'description': 'Air-sea N2O flux calculated with Wanninkhof et al., 2014 and no ice correction and 25% higher wind speeds',
+        'description': 'Air-sea N2O flux calculated with Liang et al., 2013 and no ice correction and 25% higher wind speeds',
         'units': 'umol/m2/day',
         'valid_min': -10,
         'valid_max': 50,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13stdevCOMBINED"].attrs = {
         'long_name': 'Air-sea N2O flux uncertainty',
-        'description': 'Uncertainty in air-sea N2O flux calculated with Wanninkhof et al., 2014 and no ice correction and 25% higher wind speeds',
+        'description': 'Uncertainty in air-sea N2O flux calculated with Liang et al., 2013 and no ice correction and 25% higher wind speeds',
         'units': 'umol/m2/day',
         'valid_min': 0,
         'valid_max': 40,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13CYCLONES"].attrs = {
         'long_name': 'Air-sea N2O flux',
-        'description': 'Air-sea N2O flux calculated with Wanninkhof et al., 2014 and 0.01 atm lower barometric pressure',
+        'description': 'Air-sea N2O flux calculated with Liang et al., 2013 and 0.01 atm lower barometric pressure',
         'units': 'umol/m2/day',
         'valid_min': -10,
         'valid_max': 50,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["FtL13stdevCYCLONES"].attrs = {
         'long_name': 'Air-sea N2O flux uncertainty',
-        'description': 'Uncertainty in air-sea N2O flux calculated with Wanninkhof et al., 2014 and 0.01 atm lower barometric pressure',
+        'description': 'Uncertainty in air-sea N2O flux calculated with Liang et al., 2013 and 0.01 atm lower barometric pressure',
         'units': 'umol/m2/day',
         'valid_min': 0,
         'valid_max': 40,
-        'reference': 'Wanninkhof et al. (2014)'
+        'reference': 'Liang et al., 2013'
     }
     
     ds["Ft"].attrs = {
