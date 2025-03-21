@@ -1,0 +1,11 @@
+
+gsw==3.6.17
+joblib==1.1.0
+matplotlib==3.5.1
+numpy==2.2.4
+pandas==2.2.3
+pyarrow==13.0.0
+python-dotenv==1.0.1
+scikit_learn==1.0.2
+seaborn==0.11.2
+xarray==2023.6.0

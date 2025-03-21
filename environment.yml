@@ -1,0 +1,44 @@
+
+name: py311_oceml
+channels:
+  - pytorch
+  - pyg
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+    - python>=3.11   # python 3.11
+    - dask          # Parallel processing library
+    - distributed
+    - h5py          # Wrapper for HDF5
+    - jupyter       # Jupyter architecture
+    - jupyterlab    # Jupyter Lab environment
+    - nb_conda_kernels #
+    - matplotlib    # 2D plotting library
+    - cmocean
+    - netcdf4       # Wrapper for netcdf4
+    - erddapy
+    - pandas>=2.0   # Labeled array library
+    - seaborn       # Statistical visualizations
+    - cartopy
+    - xarray        # N-d labeled array library
+    - scikit-learn
+    - pytorch
+    - cdsapi
+    - pip
+    - cfgrib
+    - cmocean
+    - seaborn
+    - forestci
+    - gsw
+    - zarr
+    - tqdm
+    - pyarrow
+    - ipywidgets
+    - openpyxl
+    - python-dotenv
+    - argopy
+    - mpi4py mpich
+    - pip:
+      - gsw
+    #  - pip install argopy==0.1.15
