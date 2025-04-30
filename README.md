@@ -1,4 +1,4 @@
-# ml-argo-n2o
+# ml-argo-$$N_2O$$
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
@@ -19,37 +19,42 @@
 
 ## Overview
 
-This repository contains code to train machine learning models for predicting nitrous oxide (N2O) from oceanographic variables and apply those models to Biogeochemical Argo (BGC-Argo) float data. The trained models are then used to estimate air-sea N2O fluxes and their uncertainties.
+This repository contains code to train machine learning models for predicting nitrous oxide ($$N_2O$$) from oceanographic variables and applying those models to Biogeochemical Argo (BGC-Argo) float data. The trained models are then used to estimate air-sea $$N_2O$$ fluxes and their uncertainties.
 
 ### Workflow
 
 ```mermaid
 flowchart TD
-    A["GO-SHIP N2O Data"] --> B["Train Random Forest Model"]
+    A["GO-SHIP $$N_2O$$ Data"] --> B["Train Random Forest Model"]
     B --> C["Apply Model to BGC-Argo Profiles to Predict pN₂O"]
     C --> D["Calculate Air-Sea Fluxes and estimate uncertainty"]
     n1["BGC-Argo Data"] --> C
     D --> F["Export Results to NetCDF, CSV, Parquet"]
+    style A color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
+    style B color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
+    style C color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
+    style D color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
+    style n1 color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
 ```
 
 ## Repository Contents
 
 ### Model Training
 
-- `trainrf_v2.py`: Trains four Random Forest models using temperature, salinity, dissolved oxygen, and nitrate as predictors of N2O.
+- `trainrf_v2.py`: Trains four Random Forest models using temperature, salinity, dissolved oxygen, and nitrate as predictors of $$N_2O$$.
 
 ### Application to Float Data
 
-- `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of N2O (`pN2O`).
+- `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ (`p$$N_2O$$`).
 
-- `plot_predictedn2o.py`: Generates:
-  - Maps of predicted `pN2O` values
+- `plot_predicted$$N_2O$$.py`: Generates:
+  - Maps of predicted `p$$N_2O$$` values
   - Maps of associated uncertainties
   - Histograms of prediction uncertainty distributions
 
 ### Air-Sea Flux Calculation
 
-- `flux_uncertainties.py`: Calculates air-sea N2O fluxes using predicted `pN2O` and associated uncertainties.
+- `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted `p$$N_2O$$` and associated uncertainties.
 
 - `assign_fluxes_metadata.py`: Converts output to:
   - NetCDF format (`.nc`)
@@ -89,8 +94,8 @@ flowchart TD
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/ckelly314/ml-argo-n2o.git
-cd ml-argo-n2o
+git clone https://github.com/ckelly314/ml-argo-$$N_2O$$.git
+cd ml-argo-$$N_2O$$
 ```
 
 ### Environment Setup (Recommended)
@@ -98,7 +103,7 @@ cd ml-argo-n2o
 We recommend setting up a Python virtual environment to avoid dependency conflicts:
 ```bash
 conda env create -f environment.yml
-conda activate ml-argo-n2o
+conda activate ml-argo-$$N_2O$$
 ```
 
 ### Install Time
@@ -119,7 +124,7 @@ To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float pr
    ```
 3. Plot predictions:
    ```bash
-   python plot_predictedn2o.py
+   python plot_predicted$$N_2O$$.py
    ```
 4. Calculate air-sea fluxes:
    ```bash
@@ -131,7 +136,7 @@ To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float pr
    ```
 
 Expected output:
-- Predicted N2O profiles and maps
+- Predicted $$N_2O$$ profiles and maps
 - Uncertainty plots
 - Flux estimates in NetCDF, CSV, and Parquet formats
 
@@ -139,7 +144,7 @@ Expected runtime on a 4-core desktop: ~5 minutes total.
 
 ## Instructions for Use
 
-To retrain the Random Forest model on a different N2O dataset:
+To retrain the Random Forest model on a different $$N_2O$$ dataset:
 1. Format training data as per `datasets/goshipdataset.csv`
 2. Use `trainrf_v2.py` to train models
 
@@ -154,8 +159,8 @@ To run the pipeline on your own BCG-Argo dataset with paired sea level pressures
 This pipeline produces the following figures from the associated paper:
 
 - **Extended Data Fig. 2**: Random forest model performance (R², RMSE).
-- **Extended Data Fig. 4**: Predicted pN2O.   
-- **Figure 2**: Southern Ocean N2O flux estimates with uncertainties.
+- **Extended Data Fig. 4**: Predicted p$$N_2O$$.   
+- **Figure 2**: Southern Ocean $$N_2O$$ flux estimates with uncertainties.
 
 ### Reproduce All Manuscript Results
 
