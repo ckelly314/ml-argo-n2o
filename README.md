@@ -2,6 +2,8 @@
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
+[![Preprint](https://www.researchsquare.com/static/img/logos/logo-rs.svg)](https://www.researchsquare.com/article/rs-6378208/v1)
+
 > VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
 
 ## Contents
