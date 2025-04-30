@@ -1,8 +1,8 @@
-# ml-argo-$$N_2O$$
+# ml-argo-n2o 🌊🤖
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
-> VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
+> 📝 VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
 
 ## Contents
 
@@ -25,15 +25,16 @@ This repository contains code to train machine learning models for predicting ni
 
 ```mermaid
 flowchart TD
-    A["GO-SHIP $$N_2O$$ Data"] --> B["Train Random Forest Model"]
-    B --> C["Apply Model to BGC-Argo Profiles to Predict pN₂O"]
-    C --> D["Calculate Air-Sea Fluxes and estimate uncertainty"]
+    A["GO-SHIP N2O Data"] --> B["🏋️‍♀️ Train Random Forest Models"]
+    B --> C["🤖 Apply Model to BGC-Argo Profiles to Predict pN₂O"]
+    C --> D["🌬️ Calculate Air-Sea Fluxes and estimate uncertainty"]
     n1["BGC-Argo Data"] --> C
-    D --> F["Export Results to NetCDF, CSV, Parquet"]
+    D --> F["📈 Export Results to NetCDF, CSV, Parquet"]
     style A color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style B color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style C color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style D color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
+    style E color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style n1 color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
 ```
 
@@ -45,27 +46,27 @@ flowchart TD
 
 ### Application to Float Data
 
-- `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ (`p$$N_2O$$`).
+- `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ (`$$pN_2O$$`).
 
 - `plot_predicted$$N_2O$$.py`: Generates:
-  - Maps of predicted `p$$N_2O$$` values
+  - Maps of predicted `$$pN_2O$$` values
   - Maps of associated uncertainties
   - Histograms of prediction uncertainty distributions
 
 ### Air-Sea Flux Calculation
 
-- `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted `p$$N_2O$$` and associated uncertainties.
+- `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted `$$pN_2O$$` and associated uncertainties.
 
 - `assign_fluxes_metadata.py`: Converts output to:
-  - NetCDF format (`.nc`)
-  - Parquet format (`.parquet`)
-  - CSV format (`.csv`) with standardized metadata
+  - 🌐 NetCDF format (`.nc`)
+  - 🧾 Parquet format (`.parquet`)
+  - 📄 CSV format (`.csv`) with standardized metadata
 
 ## System Requirements
 
 ### Hardware
-- **Minimum**: 2 cores, 4 GB RAM
-- **Recommended**: 4-16 cores, 16+ GB RAM
+- **Minimum**: 2 cores, 4 GB RAM 🐢
+- **Recommended**: 4-16 cores, 16+ GB RAM 🚀
 - **Tested configurations**:
   - HPC node (16 cores, 10 GB per core)
   - MacBook Pro with Apple M2 Pro (10-core CPU, 32 GB RAM)
@@ -89,7 +90,7 @@ flowchart TD
 - `seaborn`
 - `xarray`
 
-## Installation Guide
+## Installation Guide 🛠️
 
 ### Clone the Repository
 
@@ -106,11 +107,11 @@ conda env create -f environment.yml
 conda activate ml-argo-$$N_2O$$
 ```
 
-### Install Time
+### Install Time ⏱️
 
 Typical install time on a standard desktop computer: **~2–3 minutes**.
 
-## Demo
+## Demo 🎬
 
 To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float profiles in the Southern Ocean:
 
@@ -159,7 +160,7 @@ To run the pipeline on your own BCG-Argo dataset with paired sea level pressures
 This pipeline produces the following figures from the associated paper:
 
 - **Extended Data Fig. 2**: Random forest model performance (R², RMSE).
-- **Extended Data Fig. 4**: Predicted p$$N_2O$$.   
+- **Extended Data Fig. 4**: Predicted $$pN_2O$$.   
 - **Figure 2**: Southern Ocean $$N_2O$$ flux estimates with uncertainties.
 
 ### Reproduce All Manuscript Results
@@ -169,10 +170,10 @@ To reproduce all of the figures and key results in the associated paper, refer t
 ## License
 This project is licensed under [MIT License](LICENSE).
 
-## Citation
+## Citation ✍️
 If you use this code in your research, please cite the paper:
 
-> C.L. Kelly, B.X. Chang, A. Emmanuelli, E. Park, A. Macdonald, & D.P. Nicholson. Low-pressure storms drive nitrous oxide emissions in the Southern Ocean, 30 April 2025, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-6378208/v1]
+> C.L. Kelly, B.X. Chang, A. Emmanuelli, E. Park, A. Macdonald, & D.P. Nicholson. Low-pressure storms drive nitrous oxide emissions in the Southern Ocean, 30 April 2025, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-6378208/v1].
 
-## Contact
+## Contact 📬
 For questions or collaborations, please contact Colette Kelly (https://github.com/ckelly314).
