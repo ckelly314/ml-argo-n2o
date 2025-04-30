@@ -2,7 +2,7 @@
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
-[![Preprint](https://www.researchsquare.com/static/img/logos/logo-rs.svg)](https://www.researchsquare.com/article/rs-6378208/v1)
+[![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCA5NiAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMuLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjE1IiByeD0iMyIgZmlsbD0iIzAwN0ZCQyIvPjxwYXRoIGQ9Ik0xNS45NzIgNC4zODJDMjMuNzU0IDQuMzgyIDI4LjA0NiAxLjI5MiAzMi4yMTggMC45ODQ1QzM4LjQyIDAuNDYzIDQ0LjYyMiAwLjE2MTcgNTAuODI0IDAuMTYxN0M2MS4wMjYgMC4xNjE3IDY4LjMwNCA0LjYxOCA3NS4zMTggNS42NzJDNzkuNjY2IDYuMjkyIDg0LjAzNCA2LjcwODUgODguMzk1IDYuNzA4NUM5Mi43NTYgNi43MDg1IDk2IDYuMTMxMiA5NiA2LjEzMTJMOTYgMTIuNzc3Qzk2IDEyLjc3NyA5Mi43NTYgMTMuMzU0IDg4LjM5NSAxMy4zNTRDODQuMDM0IDEzLjM1NCA3OS42NjYgMTIuOTM4IDc1LjMxOCAxMi4zMTlDNjguMzA0IDExLjI2NSA2MS4wMjYgNi43MDg1IDUwLjgyNCA2LjcwODVDNDQuNjIyIDYuNzA4NSAzOC40MiA3LjAwNzggMzIuMjE4IDcuNTI4MkMyOC4wNDYgNy44MzYzIDIzLjc1NCAxMC45MjYgMTUuOTcyIDEwLjkyNkgwVjQuMzgyaDE1Ljk3MloiIGZpbGw9IndoaXRlIi8+PC9zdmc+)](https://www.researchsquare.com/article/rs-6378208/v1
 
 > VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
 
