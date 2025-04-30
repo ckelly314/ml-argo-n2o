@@ -15,8 +15,7 @@ import pandas as pd
 import pyarrow.parquet as pq
 
 # helper functions
-from initialize_paths import initialize_paths
-from feature_lists import feature_lists
+from ml_feature_lists import feature_lists
 
 # ML functions
 from joblib import load
@@ -53,14 +52,13 @@ def load_argo_data(path_to_data):
 
     return df
 
-def generate_predictions(df, argo_feature_sets, outputpath, modelIDs=[1,2,3,4]):
+def generate_predictions(df, argo_feature_sets, modelIDs=[1,2,3,4]):
     """
     Generate pN2O predictions using pre-trained Random Forest models.
     
     Parameters:
     df (pandas.DataFrame): Dataframe containing Argo observations.
     argo_feature_sets (dict): Dictionary mapping model IDs to feature sets.
-    outputpath (str): Path to the directory containing trained models.
     modelIDs (list of int, optional): List of model IDs to use for predictions. Defaults to [1,2,3,4].
     
     Returns:
@@ -74,7 +72,7 @@ def generate_predictions(df, argo_feature_sets, outputpath, modelIDs=[1,2,3,4]):
 
     # loop through models of choice
     for count, modelID in enumerate(modelIDs):
-        print(f'loading RF model from {outputpath}/model{modelID}_rf_full.joblib')
+        print(f'loading model{modelID}_rf_full.joblib')
         
         # set up array of predictors
         feature_list = argo_feature_sets[modelID]
@@ -82,7 +80,7 @@ def generate_predictions(df, argo_feature_sets, outputpath, modelIDs=[1,2,3,4]):
         print(f"generating predictions from {feature_list}")
 
         # load trained model
-        RF = load(f'{outputpath}/model{modelID}_rf_full.joblib')
+        RF = load(f'model{modelID}_rf_full.joblib')
 
         # generate predictions
         predictions[:,count] = RF.predict(np.array(predictors))
@@ -149,21 +147,20 @@ def main():
     Loads Argo data, applies trained Random Forest models to generate N2O predictions,
     calculates atmospheric partial pressure of N2O and disequilibrium, and saves results.
     """
-    datapath, argopath, outputpath, era5path = initialize_paths()
     feature_sets, feature_set_labels, argo_feature_sets = feature_lists()
 
     # load argo surface data from parquet files
-    argodata = load_argo_data("datasets/argodataset.parquet")#f"{outputpath}/pqsurfacebyyear/")
+    argodata = load_argo_data("datasets/argodataset.parquet")
 
     # apply selected models to argo data
-    n2opredictions = generate_predictions(argodata, argo_feature_sets, outputpath, modelIDs=[1,2,3,4])
+    n2opredictions = generate_predictions(argodata, argo_feature_sets, modelIDs=[1,2,3,4])
 
     # calculate atmospheric partial pressure of N2O and N2O disequilibrium
     output = calculate_pN2Oatm(n2opredictions)
 
     # save out
-    output.to_parquet("datasets/n2opredictions.parquet")#(f"{outputpath}/n2opredictions.parquet")
-    print(f"predicted N2O saved out to {outputpath}/n2opredictions.parquet")
+    output.to_parquet("datasets/n2opredictions.parquet")
+    print(f"predicted N2O saved out to datasets/n2opredictions.parquet")
 
 if __name__ == "__main__":
     main()

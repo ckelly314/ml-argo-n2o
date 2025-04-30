@@ -17,9 +17,6 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import pyarrow.parquet as pq
 import seaborn as sns
-import os
-from dotenv import load_dotenv
-from pathlib import Path
 import gsw as gsw
 from gasex.airsea import L13
 
@@ -31,21 +28,17 @@ from gasex.sol import N2Osol_SP_pt
 from gasex.sol import sol_SP_pt
 import gasex.sol as sol
 
-from initialize_paths import initialize_paths
 from joblib import dump, load
 import seaborn as sns
-from assign_fluxes_metadata import convert_fluxesparquet, assign_fluxesmetadata
-from assign_fluxes_metadata import saveoutfluxesnc, saveoutfluxespq, saveoutfluxescsv
 
 def load_data(path_to_data):
-    t = pq.read_table("datasets/n2opredictions.parquet")#(f"{path_to_data}/n2opredictions.parquet")
+    t = pq.read_table(f"{path_to_data}/n2opredictions.parquet")
     df = t.to_pandas()
 
     return df
 
 sns.set_context("paper", rc = {"lines.linewidth":2.5, "font.size": 12,  "font.family": "Arial"})
-datapath, argopath, outputpath, era5path = initialize_paths()
-data = load_data(outputpath)
+data = load_data("datasets")
 
 data["month"] = data.JULD.dt.month # we'll use this to group data by zone and month
 data["XN2Oa_sd"] = data['n2o_atm_sd']*1e-9 # this gets used in the Monte Carlo analysis
@@ -114,29 +107,6 @@ print(f"median Kb = {medKb}")
 print(f"median Kc = {medKc}")
 print(f"median dP = {meddP}")
 print(f"median pN2O = {medpN2O}")
-
-# compare two ways of calculating W14 flux
-F1 = fsa(surface.C,surface.U10,surface.SP,surface.pt,slp=surface.msl,gas='N2O',param="W14",rh=1,
-        chi_atm=surface.XN2Oa)
-F1 = F1*86400*1e6
-
-surface["ph2ov"] = vpress_sw(surface.SP,surface.pt) # atm
-surface["f"]  = fugacity_factor(surface.pt,gas='N2O',slp=surface.msl)
-surface["s"] = sol_SP_pt(surface.SP,surface.pt,chi_atm=surface.XN2Oa, gas='N2O',units="mM")
-surface["pN2Oatm"] = surface.XN2Oa * surface.f * (surface.msl - surface.ph2ov)
-
-pC_w = surface.pN2O_pred*1e-3 # need to convert to uatm
-pC_a = surface.pN2Oatm*1e6
-
-F2 = fsa_pC(pC_w,pC_a,surface.U10,surface.SP,surface.pt,
-            gas='N2O',param="W14",chi_atm=surface.XN2Oa)
-F2 = F2*86400*1e6
-
-fig, ax = plt.subplots()
-ax.plot(F1 - F2)
-ax.set_title("Compare W14 flux calculation functions")
-plt.tight_layout()
-plt.savefig('figures/methods/compareW14.png', dpi=300)
 
 # set up monte carlo arrays
 iters = 1000
@@ -304,42 +274,6 @@ FtL13outputCYCLONES = -(1-SIerror)*(FdL13 + FcL13 + FpL13)*1e6*86400
 
 print("fluxes calculated from monte carlo arrays")
 
-# plot spread of different flux components due to Monte Carlo simulation
-fig, axes = plt.subplots(1,3, figsize = (15,5))
-ax = axes[0]
-
-mu = np.mean(FdL13output[0,:])
-sigma = np.std(FdL13output[0,:])
-count, bins, ignored = ax.hist(FdL13output[0,:], 100, density=True, histtype="step")
-ax.plot(bins, 1/(sigma * np.sqrt(2 * np.pi)) *
-               np.exp( - (bins - mu)**2 / (2 * sigma**2) ),
-         linewidth=2, color='r')
-ax.set_xlabel("Fd (umol/m2/day)")
-
-ax = axes[1]
-
-mu = np.mean(FcL13output[0,:])
-sigma = np.std(FcL13output[0,:])
-count, bins, ignored = ax.hist(FcL13output[0,:], 100, density=True, histtype="step")
-ax.plot(bins, 1/(sigma * np.sqrt(2 * np.pi)) *
-               np.exp( - (bins - mu)**2 / (2 * sigma**2) ),
-         linewidth=2, color='r')
-
-ax.set_xlabel("Fc (umol/m2/day)")
-
-ax = axes[2]
-
-mu = np.mean(FpL13output[0,:])
-sigma = np.std(FpL13output[0,:])
-count, bins, ignored = ax.hist(FpL13output[0,:], 100, density=True, histtype="step")
-ax.plot(bins, 1/(sigma * np.sqrt(2 * np.pi)) *
-               np.exp( - (bins - mu)**2 / (2 * sigma**2) ),
-         linewidth=2, color='r')
-
-ax.set_xlabel("Fp (umol/m2/day)")
-plt.tight_layout()
-plt.savefig('figures/methods/FdFcFpmontecarlo.png', dpi=300)
-
 # calculate averages across Monte Carlo arrays
 surface["FtW14"] = np.mean(FtW14output, axis=1)
 surface["FtW14stdev"] = 1.96*np.std(FtW14output, axis=1) # multiply by 1.96 to get 95% confidence interval
@@ -399,51 +333,6 @@ print("average fluxes calculated")
 surface["Ft"] = np.mean([surface["FtW14"], surface["FtL13"]], axis=0)
 diff = np.std([surface["FtW14"], surface["FtL13"]], axis=0)
 surface["Ftstdev"] = np.sqrt(surface["FtW14stdev"]**2 + surface["FtL13stdev"]**2 + diff**2)
-
-# plot standard deviations of fluxes for different parameterizations
-fig, ax = plt.subplots()
-ax.violinplot([surface["FtW14stdev"],surface["FtL13stdev"]])
-ax.set_ylabel("flux errors ($\mu mol/m^2/d$)")
-ax.set_xlabel("probability density")
-ax.set_xticks([1,2])
-ax.set_xticklabels(["W14", "L13"])
-plt.tight_layout()
-plt.savefig('figures/methods/montecarloviolin.png', dpi=300)
-
-# plot comparison of L13 and W14 fluxes
-fig, axes = plt.subplots(2,2, figsize = (10,10))
-ax = axes[0,0]
-ax.errorbar(surface.U10, surface["Ft"], yerr = surface["Ftstdev"],
-           linestyle = "none", capsize = 5, alpha = 0.5,
-           marker = "D")
-ax.set_xlabel("U10 (m/s)")
-ax.set_ylabel("Ft mean (umol/m2/day)")
-
-ax = axes[0,1]
-ax.errorbar(surface.U10, surface.FtL13, yerr = surface.FtL13stdev,
-           linestyle = "none", capsize = 5, alpha = 0.5,
-           marker = "D")
-#ax.set_xlim([-0.5,5])
-#ax.set_ylim([-5,2])
-ax.set_xlabel("U10 (m/s)")
-ax.set_ylabel("Ft L13 (umol/m2/day)")
-
-ax = axes[1,0]
-ax.errorbar(surface.U10, surface.FtW14, yerr = surface.FtW14stdev,
-           linestyle = "none", capsize = 5, alpha = 0.5,
-           marker = "D")
-ax.set_xlabel("U10 (m/s)")
-ax.set_ylabel("Ft W14 (umol/m2/day)")
-
-ax = axes[1,1]
-ax.errorbar(surface.FtL13, surface.FtW14, xerr = surface.FtL13stdev, yerr = surface.FtW14stdev,
-            linestyle = "none", capsize = 5, alpha = 0.5,
-            marker = "D")
-ax.set_xlabel("Ft L13 (umol/m2/day)")
-ax.set_ylabel("Ft W14 (umol/m2/day)")
-
-plt.tight_layout()
-plt.savefig('figures/methods/comparefluxes1.png', dpi=300)
 
 ###################################
 ### CALCULATE INTEGRATED FLUXES ###
@@ -575,7 +464,7 @@ ax.set_ylim([-0.1, 1.65])
 ax.set_xticks(np.linspace(0.91, 1.03, 5))
 ax.set_yticks(np.linspace(0, 1.5, 7))
 ax.tick_params(direction="in", top = True, right = True, labelsize=12)
-plt.savefig("figures/summaryfigs/cumuflux_errors_proposal.png", dpi=300, bbox_inches = "tight")
+plt.savefig("figures/Figure2.png", dpi=300, bbox_inches = "tight")
 plt.show()
 plt.close()
 
@@ -593,5 +482,5 @@ print(f"N2O flux offsets {round(-Ftsum/2*273/3190*100)}% of CO2 flux based on 31
 ### SAVE OUT FLUXES ###
 #######################
 # save out predicted pN2O and flux to directory containing intermediate data products
-surface.to_parquet(f"{outputpath}/fluxes.parquet")
+surface.to_parquet(f"datasets/fluxes.parquet")
 print("fluxes saved out")

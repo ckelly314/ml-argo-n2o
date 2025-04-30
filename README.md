@@ -1,57 +1,145 @@
 # ml-argo-n2o
-# VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
+
+[![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
+
+> VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
+
+## Contents
+
+- [Overview](#overview)
+- [Repository Contents](#repository-contents)
+- [System Requirements](#system-requirements)
+- [Installation Guide](#installation-guide)
+- [Demo](#demo)
+- [Instructions for Use](#instructions-for-use)
+- [Results](#results)
+- [License](#license)
+- [Citation](#citation)
+- [Contact](#contact)
+
+## Overview
 
 This repository contains code to train machine learning models for predicting nitrous oxide (N2O) from oceanographic variables and apply those models to Biogeochemical Argo (BGC-Argo) float data. The trained models are then used to estimate air-sea N2O fluxes and their uncertainties.
 
 ## Repository Contents
 
-### Train Best Models
+### Model Training
 
-#### `trainrf_v2.py`
-Train four core Random Forest models on the full training dataset (training + validation data) to predict N2O from the following oceanographic variables:
-- Temperature (T)
-- Salinity (S)
-- Dissolved oxygen (O2)
-- Nitrate (NO3⁻)
+- `trainrf_v2.py`: Trains four Random Forest models using temperature, salinity, dissolved oxygen, and nitrate as predictors of N2O.
 
-### Apply RF Models to Float Data
+### Application to Float Data
 
-#### `applyrf_v2.py`
-Read in BGC-Argo float data and apply the trained Random Forest models to predict partial pressure of N2O (`pN2O`) in the ocean.
+- `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of N2O (`pN2O`).
 
-#### `plot_predictedn2o.py`
-Generate visualizations of the predicted N2O values, including:
-- Maps of predicted N2O and associated uncertainties
-- Histogram of uncertainty distributions
+- `plot_predictedn2o.py`: Generates:
+  - Maps of predicted `pN2O` values
+  - Maps of associated uncertainties
+  - Histograms of prediction uncertainty distributions
 
-### Calculate Air-Sea Fluxes
+### Air-Sea Flux Calculation
 
-#### `flux_uncertainties.py`
-Compute air-sea N2O fluxes, incorporating Monte Carlo simulations to estimate uncertainties due to errors in:
-- Predicted pN2O in seawater (`pN2Osw`)
-- Atmospheric N2O mixing ratio (`XN2Oatm`)
+- `flux_uncertainties.py`: Calculates air-sea N2O fluxes using predicted `pN2O` and associated uncertainties.
 
-#### `assign_fluxes_metadata.py`
-Convert the computed air-sea N2O flux dataset into multiple formats with appropriate metadata:
-- **NetCDF (`.nc`)** for compatibility with scientific workflows
-- **Parquet (`.parquet`)** for efficient data storage and retrieval
-- **CSV (`.csv`)** for general accessibility
+- `assign_fluxes_metadata.py`: Converts output to:
+  - NetCDF format (`.nc`)
+  - Parquet format (`.parquet`)
+  - CSV format (`.csv`) with standardized metadata
 
-## Usage
-1. **Train the models**: Run `trainrf_v2.py` to train the Random Forest models.
-2. **Apply to float data**: Use `applyrf_v2.py` to generate predicted N2O values from BGC-Argo profiles.
-3. **Visualize predictions**: Execute `plot_predictedn2o.py` to create maps and uncertainty histograms.
-4. **Calculate air-sea fluxes**: Run `flux_uncertainties.py` to estimate fluxes and their uncertainties.
-5. **Save with metadata**: Use `assign_fluxes_metadata.py` to store results in different formats.
+## System Requirements
 
-## Dependencies
-- Python 3.x
-- `scikit-learn`
+### Hardware
+- **Minimum**: 2 cores, 4 GB RAM
+- **Recommended**: 4-16 cores, 16+ GB RAM
+- **Tested configurations**:
+  - HPC node (16 cores, 10 GB per core)
+  - MacBook Pro with Apple M2 Pro (10-core CPU, 32 GB RAM)
+
+### Software
+- OS: Linux, macOS, or Windows (tested on CentOS Linux 7 (Core) (cluster environment) and macOS Sonoma 14.6)
+- Python: 3.8 or higher
+
+### Python Dependencies
+- `cartopy`
+- `gsw`
+- `joblib`
+- `matplotlib`
 - `numpy`
 - `pandas`
+- `pyarrow`
+- `scikit-learn`
+- `seaborn`
 - `xarray`
-- `matplotlib`
-- `cartopy`
+
+All dependencies can be installed using `pip install -r requirements.txt`.
+
+## Installation Guide
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/ckelly314/ml-argo-n2o.git
+cd ml-argo-n2o
+conda env create -f environment.yml
+conda activate ml-argo-n2o
+```
+
+Typical install time on a standard desktop computer: ~2–3 minutes.
+
+## Demo
+
+To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float profiles in the Southern Ocean:
+
+1. Train models:
+   ```bash
+   python trainrf_v2.py
+   ```
+2. Apply models to float data:
+   ```bash
+   python applyrf_v2.py
+   ```
+3. Plot predictions:
+   ```bash
+   python plot_predictedn2o.py
+   ```
+4. Calculate air-sea fluxes:
+   ```bash
+   python flux_uncertainties.py
+   ```
+5. Export to standard formats:
+   ```bash
+   python assign_fluxes_metadata.py
+   ```
+
+Expected output:
+- Predicted N2O profiles and maps
+- Uncertainty plots
+- Flux estimates in NetCDF, CSV, and Parquet formats
+
+Expected runtime on a 4-core desktop: ~5 minutes total.
+
+## Instructions for Use
+
+To retrain the Random Forest model on a different N2O dataset:
+1. Format training data as per `datasets/goshipdataset.csv`
+2. Use `trainrf_v2.py` to train models
+
+To run the pipeline on your own BCG-Argo dataset with paired sea level pressures, wind speeds, and sea ice cover:
+
+1. Format input data as per `datasets/argodataset.csv`
+2. Use `applyrf_v2.py` to generate predictions
+3. Use `flux_uncertainties.py` to compute air-sea fluxes
+
+## Results
+
+This pipeline produces the following figures from the associated paper:
+
+- **Extended Data Fig. 2**: Random forest model performance (R², RMSE).
+- **Extended Data Fig. 4**: Predicted pN2O.   
+- **Figure 2**: Southern Ocean N2O flux estimates with uncertainties.
+
+### Reproduce All Manuscript Results
+
+To reproduce all of the figures and key results in the associated paper, refer to the Jupyter notebook `reproduce_results.ipynb`.
 
 ## License
 This project is licensed under [MIT License](LICENSE).
@@ -59,6 +147,8 @@ This project is licensed under [MIT License](LICENSE).
 ## Citation
 If you use this code in your research, please cite the paper:
 C.L. Kelly B.X. Chang A. Emmanuelli E. Park A. Macdonald & D.P. Nicholson (in prep). Low-pressure storms drive nitrous oxide emissions in the Southern Ocean.
+
+Colette Kelly, Bonnie Chang, Andrea Emmanuelli et al. Low-pressure storms drive nitrous oxide emissions in the Southern Ocean, 30 April 2025, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-6378208/v1]
 
 ## Contact
 For questions or collaborations, please contact Colette Kelly (https://github.com/ckelly314).
