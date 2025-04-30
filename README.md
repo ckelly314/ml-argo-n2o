@@ -25,11 +25,11 @@ This repository contains code to train machine learning models for predicting ni
 
 ```mermaid
 flowchart TD
-    A[Start: Input GO-SHIP N2O Data] --> B[Train Random Forest Model]
-    B --> C[Apply Model to BGC-Argo Profiles to Predict pN₂O]
-    C --> D[Calculate Air-Sea Fluxes]
-    D --> E[Estimate Uncertainty via Monte Carlo Simulations]
-    E --> F[Export Results to NetCDF, CSV, Parquet]
+    A["GO-SHIP N2O Data"] --> B["Train Random Forest Model"]
+    B --> C["Apply Model to BGC-Argo Profiles to Predict pN₂O"]
+    C --> D["Calculate Air-Sea Fluxes and estimate uncertainty"]
+    n1["BGC-Argo Data"] --> C
+    D --> F["Export Results to NetCDF, CSV, Parquet"]
 ```
 
 ## Repository Contents
