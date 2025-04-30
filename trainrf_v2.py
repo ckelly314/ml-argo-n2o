@@ -159,7 +159,7 @@ def main():
         plottraintest(fig, axes, plotlabels, go_training, go_test, feature_list, feature_labels, clf)
 
     plt.tight_layout()
-    plt.savefig('figures/fullmodeltraintest.png', dpi=300, bbox_inches = "tight")
+    plt.savefig('figures/ExtendedDataFig2.png', dpi=300, bbox_inches = "tight")
     plt.show()
 
 if __name__ == "__main__":

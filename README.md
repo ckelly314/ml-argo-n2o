@@ -160,7 +160,7 @@ To run the pipeline on your own BCG-Argo dataset with paired sea level pressures
 This pipeline produces the following figures from the associated paper:
 
 - **Extended Data Fig. 2**: Random forest model performance (R², RMSE).
-- **Extended Data Fig. 4**: Predicted $$pN_2O$$.   
+- **Extended Data Fig. 4**: Predicted $$pN_2O$$ and uncertainty.   
 - **Figure 2**: Southern Ocean $$N_2O$$ flux estimates with uncertainties.
 
 ### Reproduce All Manuscript Results
