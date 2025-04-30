@@ -1,10 +1,10 @@
-# ml-argo-n2o 🌊🤖
+# ml-argo-n2o
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
 > 📝 VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
 
-## Contents
+## Contents 📚
 
 - [Overview](#overview)
 - [Repository Contents](#repository-contents)
@@ -17,34 +17,34 @@
 - [Citation](#citation)
 - [Contact](#contact)
 
-## Overview
+## Overview 🌍
 
 This repository contains code to train machine learning models for predicting nitrous oxide ($$N_2O$$) from oceanographic variables and applying those models to Biogeochemical Argo (BGC-Argo) float data. The trained models are then used to estimate air-sea $$N_2O$$ fluxes and their uncertainties.
 
-### Workflow
+### Workflow 🔁
 
 ```mermaid
 flowchart TD
     A["GO-SHIP N2O Data"] --> B["🏋️‍♀️ Train Random Forest Models"]
     B --> C["🤖 Apply Model to BGC-Argo Profiles to Predict pN₂O"]
-    C --> D["🌬️ Calculate Air-Sea Fluxes and estimate uncertainty"]
+    C --> D["🌊 Calculate Air-Sea Fluxes and estimate uncertainty"]
     n1["BGC-Argo Data"] --> C
     D --> F["📈 Export Results to NetCDF, CSV, Parquet"]
     style A color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style B color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style C color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style D color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
-    style E color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
+    style F color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style n1 color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
 ```
 
-## Repository Contents
+## Repository Contents 📂
 
-### Model Training
+### Model Training 🏋️‍♀️
 
 - `trainrf_v2.py`: Trains four Random Forest models using temperature, salinity, dissolved oxygen, and nitrate as predictors of $$N_2O$$.
 
-### Application to Float Data
+### Application to Float Data 🤖
 
 - `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ (`$$pN_2O$$`).
 
@@ -53,16 +53,16 @@ flowchart TD
   - Maps of associated uncertainties
   - Histograms of prediction uncertainty distributions
 
-### Air-Sea Flux Calculation
+### Air-Sea Flux Calculation 🌊
 
 - `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted `$$pN_2O$$` and associated uncertainties.
 
 - `assign_fluxes_metadata.py`: Converts output to:
-  - 🌐 NetCDF format (`.nc`)
-  - 🧾 Parquet format (`.parquet`)
-  - 📄 CSV format (`.csv`) with standardized metadata
+  - NetCDF format (`.nc`)
+  - Parquet format (`.parquet`)
+  - CSV format (`.csv`) with standardized metadata
 
-## System Requirements
+## System Requirements 💻
 
 ### Hardware
 - **Minimum**: 2 cores, 4 GB RAM 🐢
@@ -75,7 +75,7 @@ flowchart TD
 - OS: Linux, macOS, or Windows (tested on CentOS Linux 7 (Core) (cluster environment) and macOS Sonoma 14.6)
 - Python: 3.8 or higher
 
-### Python Dependencies
+### Python Dependencies 📦
 - `cartopy`
 - `gsw`
 - `joblib`
@@ -143,7 +143,7 @@ Expected output:
 
 Expected runtime on a 4-core desktop: ~5 minutes total.
 
-## Instructions for Use
+## Instructions for Use 🧑‍🔬
 
 To retrain the Random Forest model on a different $$N_2O$$ dataset:
 1. Format training data as per `datasets/goshipdataset.csv`
@@ -155,7 +155,7 @@ To run the pipeline on your own BCG-Argo dataset with paired sea level pressures
 2. Use `applyrf_v2.py` to generate predictions
 3. Use `flux_uncertainties.py` to compute air-sea fluxes
 
-## Results
+## Results 📊
 
 This pipeline produces the following figures from the associated paper:
 
@@ -167,7 +167,7 @@ This pipeline produces the following figures from the associated paper:
 
 To reproduce all of the figures and key results in the associated paper, refer to the Jupyter notebook `reproduce_results.ipynb`.
 
-## License
+## License 📄
 This project is licensed under [MIT License](LICENSE).
 
 ## Citation ✍️
