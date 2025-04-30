@@ -2,8 +2,6 @@
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
-[![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iMTUiIHZpZXdCb3g9IjAgMCA5NiAxNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMuLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9IjE1IiByeD0iMyIgZmlsbD0iIzAwN0ZCQyIvPjxwYXRoIGQ9Ik0xNS45NzIgNC4zODJDMjMuNzU0IDQuMzgyIDI4LjA0NiAxLjI5MiAzMi4yMTggMC45ODQ1QzM4LjQyIDAuNDYzIDQ0LjYyMiAwLjE2MTcgNTAuODI0IDAuMTYxN0M2MS4wMjYgMC4xNjE3IDY4LjMwNCA0LjYxOCA3NS4zMTggNS42NzJDNzkuNjY2IDYuMjkyIDg0LjAzNCA2LjcwODUgODguMzk1IDYuNzA4NUM5Mi43NTYgNi43MDg1IDk2IDYuMTMxMiA5NiA2LjEzMTJMOTYgMTIuNzc3Qzk2IDEyLjc3NyA5Mi43NTYgMTMuMzU0IDg4LjM5NSAxMy4zNTRDODQuMDM0IDEzLjM1NCA3OS42NjYgMTIuOTM4IDc1LjMxOCAxMi4zMTlDNjguMzA0IDExLjI2NSA2MS4wMjYgNi43MDg1IDUwLjgyNCA2LjcwODVDNDQuNjIyIDYuNzA4NSAzOC40MiA3LjAwNzggMzIuMjE4IDcuNTI4MkMyOC4wNDYgNy44MzYzIDIzLjc1NCAxMC45MjYgMTUuOTcyIDEwLjkyNkgwVjQuMzgyaDE1Ljk3MloiIGZpbGw9IndoaXRlIi8+PC9zdmc+)](https://www.researchsquare.com/article/rs-6378208/v1
-
 > VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
 
 ## Contents
@@ -22,6 +20,17 @@
 ## Overview
 
 This repository contains code to train machine learning models for predicting nitrous oxide (N2O) from oceanographic variables and apply those models to Biogeochemical Argo (BGC-Argo) float data. The trained models are then used to estimate air-sea N2O fluxes and their uncertainties.
+
+### Workflow
+
+```mermaid
+flowchart TD
+    A[Start: Input GO-SHIP N2O Data] --> B[Train Random Forest Model]
+    B --> C[Apply Model to BGC-Argo Profiles to Predict pN₂O]
+    C --> D[Calculate Air-Sea Fluxes]
+    D --> E[Estimate Uncertainty via Monte Carlo Simulations]
+    E --> F[Export Results to NetCDF, CSV, Parquet]
+```
 
 ## Repository Contents
 
@@ -64,28 +73,37 @@ This repository contains code to train machine learning models for predicting ni
 - `cartopy`
 - `gsw`
 - `joblib`
+- `jupyter`
+- `jupyterlab`
 - `matplotlib`
 - `numpy`
 - `pandas`
 - `pyarrow`
+- `python-dotenv`
 - `scikit-learn`
 - `seaborn`
 - `xarray`
 
-All dependencies can be installed using `pip install -r requirements.txt`.
-
 ## Installation Guide
 
-Clone the repository and install dependencies:
+### Clone the Repository
 
 ```bash
 git clone https://github.com/ckelly314/ml-argo-n2o.git
 cd ml-argo-n2o
+```
+
+### Environment Setup (Recommended)
+
+We recommend setting up a Python virtual environment to avoid dependency conflicts:
+```bash
 conda env create -f environment.yml
 conda activate ml-argo-n2o
 ```
 
-Typical install time on a standard desktop computer: ~2–3 minutes.
+### Install Time
+
+Typical install time on a standard desktop computer: **~2–3 minutes**.
 
 ## Demo
 
@@ -148,9 +166,8 @@ This project is licensed under [MIT License](LICENSE).
 
 ## Citation
 If you use this code in your research, please cite the paper:
-C.L. Kelly B.X. Chang A. Emmanuelli E. Park A. Macdonald & D.P. Nicholson (in prep). Low-pressure storms drive nitrous oxide emissions in the Southern Ocean.
 
-Colette Kelly, Bonnie Chang, Andrea Emmanuelli et al. Low-pressure storms drive nitrous oxide emissions in the Southern Ocean, 30 April 2025, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-6378208/v1]
+> C.L. Kelly, B.X. Chang, A. Emmanuelli, E. Park, A. Macdonald, & D.P. Nicholson. Low-pressure storms drive nitrous oxide emissions in the Southern Ocean, 30 April 2025, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-6378208/v1]
 
 ## Contact
 For questions or collaborations, please contact Colette Kelly (https://github.com/ckelly314).

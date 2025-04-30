@@ -1,9 +1,14 @@
 name: ml-argo-n2o
 channels:
+  - pytorch
+  - pyg
+  - anaconda
   - conda-forge
   - defaults
 dependencies:
   - python=3.8
+  - jupyter
+  - jupyterlab
   - numpy
   - pandas
   - scikit-learn
@@ -11,6 +16,8 @@ dependencies:
   - matplotlib
   - cartopy
   - seaborn
+  - pyarrow
+  - python-dotenv
   - pip
     - pip:
       - gsw
