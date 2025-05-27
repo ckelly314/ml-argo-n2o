@@ -46,16 +46,16 @@ flowchart TD
 
 ### Application to Float Data 🤖
 
-- `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ (`$$pN_2O$$`).
+- `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ ($$pN_2O$$).
 
 - `plot_predicted$$N_2O$$.py`: Generates:
-  - Maps of predicted `$$pN_2O$$` values
+  - Maps of predicted $$pN_2O$$ values
   - Maps of associated uncertainties
   - Histograms of prediction uncertainty distributions
 
 ### Air-Sea Flux Calculation 🌊
 
-- `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted `$$pN_2O$$` and associated uncertainties.
+- `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted $$pN_2O$$ and associated uncertainties.
 
 - `assign_fluxes_metadata.py`: Converts output to:
   - NetCDF format (`.nc`)
@@ -95,7 +95,7 @@ flowchart TD
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/ckelly314/ml-argo-$$N_2O$$.git
+git clone https://github.com/ckelly314/ml-argo-n2o.git
 cd ml-argo-$$N_2O$$
 ```
 
@@ -125,7 +125,7 @@ To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float pr
    ```
 3. Plot predictions:
    ```bash
-   python plot_predicted$$N_2O$$.py
+   python plot_predictedn2o.py
    ```
 4. Calculate air-sea fluxes:
    ```bash
