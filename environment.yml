@@ -6,7 +6,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.8
+  - python=3.11
   - jupyter
   - jupyterlab
   - numpy
@@ -19,5 +19,5 @@ dependencies:
   - pyarrow
   - python-dotenv
   - pip
-    - pip:
+  - pip:
       - gsw
