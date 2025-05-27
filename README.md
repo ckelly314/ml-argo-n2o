@@ -48,7 +48,7 @@ flowchart TD
 
 - `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ ($$pN_2O$$).
 
-- `plot_predicted$$N_2O$$.py`: Generates:
+- `plot_predictedn2o.py`: Generates:
   - Maps of predicted $$pN_2O$$ values
   - Maps of associated uncertainties
   - Histograms of prediction uncertainty distributions
