@@ -158,7 +158,7 @@ def main():
     # calculate atmospheric partial pressure of N2O and N2O disequilibrium
     output = calculate_pN2Oatm(n2opredictions)
 
-    # First, let's identify which columns are datetime and fix them
+    # convert JULD from ns to us
     for col in output.columns:
         if pd.api.types.is_datetime64_any_dtype(output[col]):
             print(f"Converting datetime column: {col}")
