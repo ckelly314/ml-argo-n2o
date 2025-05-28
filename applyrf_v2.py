@@ -158,8 +158,14 @@ def main():
     # calculate atmospheric partial pressure of N2O and N2O disequilibrium
     output = calculate_pN2Oatm(n2opredictions)
 
+    # First, let's identify which columns are datetime and fix them
+    for col in output.columns:
+        if pd.api.types.is_datetime64_any_dtype(output[col]):
+            print(f"Converting datetime column: {col}")
+            output[col] = output[col].dt.floor('us')
+
     # save out
-    output.to_parquet("datasets/n2opredictions.parquet", engine='pyarrow', coerce_timestamps='us') # convert all timestamps to microsecond precision
+    output.to_parquet("datasets/n2opredictions.parquet") # convert all timestamps to microsecond precision
     print(f"predicted N2O saved out to datasets/n2opredictions.parquet")
 
 if __name__ == "__main__":
