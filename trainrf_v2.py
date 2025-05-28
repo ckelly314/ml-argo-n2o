@@ -147,7 +147,7 @@ def main():
         
         # Compute and print errors
         print('MAE:', mean_absolute_error(ypred,ytest))
-        print('RMSE:', mean_squared_error(ypred,ytest,squared=False))
+        print('RMSE:', np.sqrt(mean_squared_error(ypred,ytest)))
         
         # Compute R-squared value
         r_square=metrics.r2_score(ytest,ypred)
