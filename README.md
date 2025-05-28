@@ -147,7 +147,7 @@ Expected output:
 - Uncertainty plots
 - Flux estimates in NetCDF, CSV, and Parquet formats
 
-Expected runtime on a 4-core desktop: ~25 minutes total.
+Expected runtime on a 4-core desktop: ~25 minutes total (slowest step is running flux_uncertainties.py).
 
 ## Instructions for Use 🧑‍🔬
 
