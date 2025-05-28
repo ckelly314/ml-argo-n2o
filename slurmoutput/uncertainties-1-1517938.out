@@ -1,0 +1,14 @@
+median Ks = 2.7427537238954658e-05
+median Kb = 1.2880214546907118e-05
+median Kc = 1.5756197656456187e-07
+median dP = 0.012895421058839918
+median pN2O = 3.3384487592643586e-07
+monte carlo arrays set up
+fluxes calculated from monte carlo arrays
+average fluxes calculated
+integrated fluxes calculated
+Total flux, excluding pressure effect: 0.85+/-0.2 Tg N2O-N/yr
+Total flux, including pressure effect: 1.4+/-0.2 Tg N2O-N/yr
+pressure effect accounts for 41+/-10% of area- and time-integrated flux
+N2O flux offsets -6% of CO2 flux based on 3190 Tg CO2/year (Zhong et al. 2024)
+fluxes saved out
