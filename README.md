@@ -57,6 +57,8 @@ flowchart TD
 
 - `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted $$pN_2O$$ and associated uncertainties.
 
+- `flux_uncertainties.sh`: Optional example batch script to submit `flux_uncertainties.py` as a batch job to a computer cluster.
+
 - `assign_fluxes_metadata.py`: Converts output to:
   - NetCDF format (`.nc`)
   - Parquet format (`.parquet`)
@@ -127,9 +129,13 @@ To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float pr
    ```bash
    python plot_predictedn2o.py
    ```
-4. Calculate air-sea fluxes:
+4. Calculate air-sea fluxes interactively 🐢:
    ```bash
    python flux_uncertainties.py
+   ```
+   OR Calculate air-sea fluxes with batch script 🚀:
+   ```bash
+   sbatch flux_uncertainties.sh
    ```
 5. Export to standard formats:
    ```bash
@@ -141,7 +147,7 @@ Expected output:
 - Uncertainty plots
 - Flux estimates in NetCDF, CSV, and Parquet formats
 
-Expected runtime on a 4-core desktop: ~5 minutes total.
+Expected runtime on a 4-core desktop: ~25 minutes total.
 
 ## Instructions for Use 🧑‍🔬
 
