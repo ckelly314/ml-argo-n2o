@@ -159,7 +159,9 @@ def main():
     output = calculate_pN2Oatm(n2opredictions)
 
     # save out
-    output.to_parquet("datasets/n2opredictions.parquet")
+    output.to_parquet("datasets/n2opredictions.parquet",
+        engine='pyarrow',
+        coerce_timestamps='us') # convert all timestamps to microsecond precision
     print(f"predicted N2O saved out to datasets/n2opredictions.parquet")
 
 if __name__ == "__main__":
