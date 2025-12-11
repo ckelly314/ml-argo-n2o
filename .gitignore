@@ -4,7 +4,7 @@
 *__pycache__
 
 # large data files
-*.csv:
+*.csv
 *.npy
 
 # figure vector files
@@ -17,3 +17,4 @@ datasets/
 argodataset.*
 n2opredictions.parquet
 .ipynb_checkpoints/
+*.npy
