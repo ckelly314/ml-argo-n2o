@@ -2,17 +2,9 @@
 *.joblib
 /__pycache__/
 *__pycache__
+
 # monte carlo arrays:
-PTerror.npy
-SI_era5error.npy
-SI_nceperror.npy
-SPerror.npy
-U10_era5error.npy
-U10_nceperror.npy
-XN2Oerror.npy
-msl_era5error.npy
-msl_nceperror.npy
-mslerrorCYCLONES_era5.npy
-mslerrorCYCLONES_ncep.npy
-pN2Oerror.npy
-random_indices.npy
+*.npy
+
+# figure vector files
+*.pdf
