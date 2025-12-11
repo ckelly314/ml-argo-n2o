@@ -19,6 +19,9 @@
 
 This repository contains code to train machine learning models for predicting nitrous oxide ($$N_2O$$) from oceanographic variables and applying those models to Biogeochemical Argo (BGC-Argo) float data. The trained models are then used to estimate air-sea $$N_2O$$ fluxes and their uncertainties.
 
+**Note that the data are archived separately at https://doi.org/10.5281/zenodo.17904982**
+To run the code in this repository, download the contents of the data repository above into the "datasets" directory.
+
 ### Workflow 🔁
 
 ```mermaid
