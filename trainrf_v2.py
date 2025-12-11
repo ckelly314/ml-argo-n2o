@@ -115,6 +115,8 @@ def main():
     go_training, go_test = load_data("pN2O")
     
     chosenmodels = [1,2,3,4]
+    training_metrics = np.zeros((len(chosenmodels),6))
+    
     allplotlabels = [["a", "b", "c"],
                   ["d", "e", "f"],
                   ["g", "h", "i"],
