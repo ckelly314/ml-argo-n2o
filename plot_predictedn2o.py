@@ -109,7 +109,7 @@ def plotmaps(df):
     cbar.set_label('$\sigma$ (natm)', fontsize = 12)
     cbar.ax.tick_params(labelsize=12)
     ax2.tick_params(direction="in", top=True, right=True)
-    plt.savefig("figures/ExtendedDataFig4.png", dpi=300, bbox_inches="tight")
+    plt.savefig("figures/FigureS18.png", dpi=300, bbox_inches="tight")
     plt.show()
 
 def main():
