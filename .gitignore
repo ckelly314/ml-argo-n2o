@@ -18,3 +18,10 @@ argodataset.*
 n2opredictions.parquet
 .ipynb_checkpoints/
 *.npy
+*.npy
+*.nc
+*.csv
+*.parquet
+datasets/
+argodataset.*
+n2opredictions.parquet
