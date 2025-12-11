@@ -3,7 +3,8 @@
 /__pycache__/
 *__pycache__
 
-# monte carlo arrays:
+# large data files
+*.csv:
 *.npy
 
 # figure vector files
