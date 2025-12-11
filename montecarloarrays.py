@@ -12,7 +12,7 @@ import pyarrow.parquet as pq
 
 def load_data():
     # base case
-    t = pq.read_table(f"datasets/n2opredictions.parquet.parquet")
+    t = pq.read_table(f"datasets/n2opredictions.parquet")
     df = t.to_pandas()
 
     return df
