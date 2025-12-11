@@ -145,13 +145,22 @@ def main():
         print(f"model saved out to model{modelID}_rf_full.joblib")
         print("feature importances:", clf.feature_importances_)
         
-        # Compute and print errors
-        print('MAE:', mean_absolute_error(ypred,ytest))
-        print('RMSE:', np.sqrt(mean_squared_error(ypred,ytest)))
-        
-        # Compute R-squared value
-        r_square=metrics.r2_score(ytest,ypred)
-        print("r square:", r_square)
+        # compute errors
+        mae = mean_absolute_error(ypred,ytest)
+        mse = mean_squared_error(ypred,ytest)
+        rmse = np.sqrt(mse)
+        r2 = metrics.r2_score(ytest,ypred)
+        mpe = np.mean(np.abs(ypred - ytest)/ytest)
+
+        # print errors
+        print('MAE:', mae)
+        print('MSE:', mse)
+        print('RMSE:', rmse)
+        print("r square:", r2)
+        print("MPE:", mpe)
+
+        # store errors
+        training_metrics[count,:] = [modelID, mae, mse, rmse, r2, mpe]
 
         # Generate training vs. test plots
         plotlabels = allplotlabels[count]
@@ -159,8 +168,12 @@ def main():
         plottraintest(fig, axes, plotlabels, go_training, go_test, feature_list, feature_labels, clf)
 
     plt.tight_layout()
-    plt.savefig('figures/ExtendedDataFig2.png', dpi=300, bbox_inches = "tight")
+    plt.savefig('figures/FigureS15.png', dpi=300, bbox_inches = "tight")
     plt.show()
+
+    training_metrics = pd.DataFrame(training_metrics, columns = ['modelID', 'mae', 'mse', 'rmse', 'r2', 'mpe'])
+    training_metrics.to_csv('model_metrics.csv')
+    print('training metrics saved to model_metrics.csv')
 
 if __name__ == "__main__":
     main()

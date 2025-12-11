@@ -15,9 +15,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn import metrics
 
-def plottraintest(fig, axes, plotlabels, go_training, go_test, feature_list, feature_labels, RF):
-
-    target_col = "pN2O"
+def plottraintest(fig, axes, plotlabels, go_training, go_test, feature_list, feature_labels, RF, target_col = "pN2O"):
 
     X_test = np.array(go_test.loc[:,feature_list])
     Y_test = np.array(go_test.loc[:,target_col])

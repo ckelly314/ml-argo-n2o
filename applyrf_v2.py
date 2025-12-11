@@ -24,6 +24,7 @@ from joblib import load
 import gasex.sol as sol
 from gasex.phys import vpress_sw
 from gasex.fugacity import fugacity_factor
+from gasex.sol import sol_SP_pt
 
 def load_argo_data(path_to_data):
     """
@@ -44,7 +45,8 @@ def load_argo_data(path_to_data):
     print(f"argo data read in from {path_to_data}")
 
     # calculate N2O solubility with gasex module
-    df["N2Osol"] = sol.sol_SP_pt(df.PSAL_ADJUSTED,df.pt,gas="N2O",slp = df.msl, units="M")
+    df["N2Osol_era5"] = sol.sol_SP_pt(df.PSAL_ADJUSTED,df.pt,gas="N2O",slp = df.msl_era5, units="M")
+    df["N2Osol_ncep"] = sol.sol_SP_pt(df.PSAL_ADJUSTED,df.pt,gas="N2O",slp = df.msl_ncep, units="M")
 
     # calculate longitude transforms
     df["LON1"] = np.cos(np.pi*(df["LONGITUDE"]-110)/180)
@@ -69,6 +71,9 @@ def generate_predictions(df, argo_feature_sets, modelIDs=[1,2,3,4]):
         - 'C': N2O concentration in molar units.
     """
     predictions = np.ones((df.shape[0],len(modelIDs)))
+    residual_errors = np.ones((df.shape[0],len(modelIDs)))
+    tree_errors = np.ones((df.shape[0],len(modelIDs)))
+    training_metrics = pd.read_csv(f'model_metrics.csv')
 
     # loop through models of choice
     for count, modelID in enumerate(modelIDs):
@@ -84,17 +89,32 @@ def generate_predictions(df, argo_feature_sets, modelIDs=[1,2,3,4]):
 
         # generate predictions
         predictions[:,count] = RF.predict(np.array(predictors))
-    
-    # take mean and stdev of pN2O predicted by each model
+
+        # Get predictions from all individual trees
+        tree_predictions = np.array([tree.predict(predictors) for tree in RF.estimators_])
+        tree_errors[:,count] = np.std(tree_predictions, axis=0)
+
+        # calculate residual errors based on percent error
+        # residual_errors[:,count] = predictions[:,count]*training_metrics['mpe'].iloc[count]
+        # calculate residual errors based on mae
+        residual_errors[:,count] = training_metrics['mae'].iloc[count]
+
+        # take mean and stdev of pN2O predicted by each model
     n2opred = np.mean(predictions, axis=1)
-    n2opredstd = np.std(predictions, axis=1)
+    model_uncertainty = np.std(predictions, axis=1) # model disagreement
+    total_uncertainty = np.sqrt(model_uncertainty**2 +
+                            np.sum(tree_errors**2*(1/len(modelIDs))**2, axis = 1) + #  variance across different trees in the forest
+                            np.sum(residual_errors**2*(1/len(modelIDs))**2, axis = 1)) # inherent noise in the data
 
     # store values
     df["pN2O_pred"] = n2opred
-    df["pN2O_predstd"] = n2opredstd
-    df["N2O_nM"] = df["pN2O_pred"]*df["N2Osol"]
-    df["C"] = df["N2O_nM"]*1e-6
+    df["pN2O_predstd"] = total_uncertainty
 
+    df["N2O_nM_era5"] = df["pN2O_pred"]*df["N2Osol_era5"]
+    df["C_era5"] = df["N2O_nM_era5"]*1e-6
+
+    df["N2O_nM_ncep"] = df["pN2O_pred"]*df["N2Osol_ncep"]
+    df["C_ncep"] = df["N2O_nM_ncep"]*1e-6
     print(f"median predicted surface pN2O = {np.median(df.pN2O_pred):.4}+/-{np.std(df.pN2O_pred):.3}")
 
     return df
@@ -125,21 +145,84 @@ def calculate_pN2Oatm(df):
     n2o_atm_ppb = np.array(df['n2o_atm'])
     
     # calculate N2O fugacity
-    f = fugacity_factor(ptarray,gas="N2O",slp=mslarray)
+    f_era5 = fugacity_factor(ptarray,gas="N2O",slp=mslarray_era5)
+    f_ncep = fugacity_factor(ptarray,gas="N2O",slp=mslarray_ncep)
     
     # calculate atmospheric partial pressure of N2O and N2O disequilibrium
     rh = 1 # can replace with calculated relative humidity but for now assume rh=100% at moist interface
     ph2oveq = vpress_sw(SParray,ptarray)
     ph2ov = rh * ph2oveq
-    n2o_atm_natm = xN2Oarray * (mslarray - ph2ov) * f 
-    DpN2O = pN2Osw - n2o_atm_natm
+    n2o_atm_natm_era5 = xN2Oarray * (mslarray_era5 - ph2ov) * f_era5
+    n2o_atm_natm_ncep = xN2Oarray * (mslarray_ncep - ph2ov) * f_ncep
+    DpN2O_era5 = pN2Osw - n2o_atm_natm_era5
+    DpN2O_ncep = pN2Osw - n2o_atm_natm_ncep
     
-    df["fugacityfactor"] = f
-    df["pN2Oatm"] = n2o_atm_natm
-    df["DpN2O_pred"] = DpN2O
+    df["fugacityfactor_era5"] = f_era5
+    df["fugacityfactor_ncep"] = f_ncep
+    df["pN2Oatm_era5"] = n2o_atm_natm_era5
+    df["pN2Oatm_era5"] = n2o_atm_natm_ncep
+    df["DpN2O_pred_era5"] = DpN2O_era5
+    df["DpN2O_pred_ncep"] = DpN2O_ncep
     df["DpN2O_pred2"] = pN2Osw - xN2Oarray
 
     return df
+
+def calc_fluxvars(data):
+    # calculate area-time per profile for integrating fluxes in space and time
+    data["month"] = data.JULD.dt.month # we'll use this to group data by zone and month
+    # source for zone areas: Gray et al. (2018)
+    # set up dataframes containing zone areas and days in month to calculate integrated fluxes
+    areas = pd.DataFrame([["STZ",2.26e7],["SAZ",1.94e7],["PFZ",1.43e7],
+                           ["ASZ",1.28e7],["SIZ",1.72e7],["TOTAL",8.64e7]],
+                columns = ["zone","Area_km2"]).set_index("zone")
+    
+    areas["m2"] = areas.Area_km2*1e6 # convert to m2 because fluxes are in umol/m2/day
+    
+    daysinmonth = pd.DataFrame([[1.0, 31],
+                                [2.0,28],
+                                [3.0,31],
+                                [4.0,30],
+                                [5.0,31],
+                                [6.0,30],
+                                [7.0, 31],
+                                [8.0,31],
+                                [9.0,30],
+                                [10.0,31],
+                                [11.0,30],
+                                [12.0,31],
+                               ],
+                               columns = ["month","daysinmonth"]).set_index("month")
+    
+    # need area and time covered by each float, per zone, per month
+    counts = data[["zone", "month","msl_era5"]].groupby(["zone", "month"]).count() # how many floats in each zone and month?
+    surface = data.set_index(["zone", "month"]).join(counts, rsuffix = "count").reset_index() # attach counts to df
+    surface = surface.set_index("zone").join(areas["m2"]).reset_index() # attach zone areas to df
+    surface = surface.set_index("month").join(daysinmonth["daysinmonth"]).reset_index() # attach days in month to df
+    
+    # other parameters needed for flux calculation
+    surface["XN2Oa_sd"] = surface['n2o_atm_sd']*1e-9 # this gets used in the Monte Carlo analysis
+    surface["ph2ov"] = vpress_sw(surface.SP,surface.pt) # atm
+    surface["f_era5"]  = fugacity_factor(surface.pt,gas='N2O',slp=surface.msl_era5)
+    surface["f_ncep"]  = fugacity_factor(surface.pt,gas='N2O',slp=surface.msl_ncep)
+    surface["s"] = sol_SP_pt(surface.SP,surface.pt,chi_atm=surface.XN2Oa, gas='N2O',units="mM")
+    surface["pN2Oatm_era5"] = surface.XN2Oa * surface.f_era5 * (surface.msl_era5 - surface.ph2ov)
+    surface["pN2Oatm_ncep"] = surface.XN2Oa * surface.f_ncep * (surface.msl_ncep - surface.ph2ov)
+
+    # check for NaN's to mask or drop
+    vars_with_NaNs = []
+    fluxvars = ["SP", "pt",
+                "XN2Oa", "XN2Oa_sd",
+                "pN2O_pred","C_era5", "C_ncep",
+                "pN2Oatm_era5", "pN2Oatm_ncep",
+                "U10_era5", "msl_era5", "SI_era5",
+                "U10_ncep", "msl_ncep", "SI_ncep"
+               ]    
+    for var in fluxvars:
+        if len(surface) != len(surface.dropna(subset=[var])):
+            print(f"{var} contains NaNs")
+            vars_with_NaNs.append(var)
+    
+    return surface
 
 def main():
     """
@@ -164,6 +247,9 @@ def main():
             print(f"Converting datetime column: {col}")
             output[col] = output[col].dt.floor('us')
 
+    # other parameters needed for flux calculations
+    output = calc_fluxvars(output)
+    
     # save out
     output.to_parquet("datasets/n2opredictions.parquet") # convert all timestamps to microsecond precision
     print(f"predicted N2O saved out to datasets/n2opredictions.parquet")

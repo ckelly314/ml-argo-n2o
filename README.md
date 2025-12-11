@@ -42,7 +42,7 @@ flowchart TD
 
 ### Model Training 🏋️‍♀️
 
-- `trainrf_v2.py`: Trains four Random Forest models using temperature, salinity, dissolved oxygen, and nitrate as predictors of $$N_2O$$.
+- `trainrf_v2.py`: Trains four Random Forest models using temperature, salinity, dissolved oxygen, and nitrate as predictors of $$N_2O$$. Save out model performance metrics to include MAE in uncertainty propagation.
 
 ### Application to Float Data 🤖
 
