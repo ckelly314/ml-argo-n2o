@@ -140,7 +140,8 @@ def calculate_pN2Oatm(df):
     xN2Oarray = np.array(df["XN2Oa"]*1e9)
     ptarray = np.array(df.pt)
     SParray = np.array(df.SP)
-    mslarray = np.array(df.msl)
+    mslarray_era5 = np.array(df.msl_era5)
+    mslarray_ncep = np.array(df.msl_ncep)
     pN2Osw = np.array(df.pN2O_pred)
     n2o_atm_ppb = np.array(df['n2o_atm'])
     
