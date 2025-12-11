@@ -15,13 +15,10 @@ from gasex.airsea import L13
 from joblib import Parallel, delayed # parallel processing
 import pandas as pd
 import pyarrow.parquet as pq
-from initialize_paths import initialize_paths
 from gasex.diff import schmidt
 
 def loadmontecarlo(outputpath):
     pN2Oerror = np.load(f'{outputpath}/pN2Oerror.npy')
-    pN2Oerror_bias19 = np.load(f'{outputpath}/pN2Oerror_bias19.npy')
-    pN2Oerror_bias27 = np.load(f'{outputpath}/pN2Oerror_bias27.npy')
 
     XN2Oerror = np.load(f'{outputpath}/XN2Oerror.npy')
     SPerror = np.load(f'{outputpath}/SPerror.npy')
@@ -39,18 +36,11 @@ def loadmontecarlo(outputpath):
 
     random_indices = np.load(f'{outputpath}/random_indices.npy')
 
-    return (pN2Oerror,pN2Oerror_bias19, pN2Oerror_bias27,
+    return (pN2Oerror,
             XN2Oerror, SPerror, PTerror,
         msl_era5error, U10_era5error, SI_era5error, mslerrorCYCLONES_era5,
         msl_nceperror, U10_nceperror, SI_nceperror, mslerrorCYCLONES_ncep,
            random_indices)
-
-def loadbiasedmontecarlo(outputpath):
-    pN2Oarrays = []
-    for i in range(-10,12,2):
-        pN2Oerror_biased = np.load(f'{outputpath}/pN2Oerror_trainbias{i}.npy')
-        pN2Oarrays.append(pN2Oerror_biased)
-    return pN2Oarrays
 
 def calckvals(outputpath, median=False):
     t = pq.read_table(f"{outputpath}/n2opredictions.parquet")
@@ -378,10 +368,9 @@ def generateinputs():
     return inputs
 
 def main():
-    datapath, argopath, outputpath, era5path = initialize_paths()
+    outputpath = "datasets"
     montecarloarrays = loadmontecarlo(outputpath)
-    biasedpN2Oarrays = loadbiasedmontecarlo(outputpath)
-    (pN2Oerror,pN2Oerror_bias19, pN2Oerror_bias27, XN2Oerror, SPerror, PTerror,
+    (pN2Oerror,XN2Oerror, SPerror, PTerror,
         msl_era5error, U10_era5error, SI_era5error, mslerrorCYCLONES_era5,
         msl_nceperror, U10_nceperror, SI_nceperror, mslerrorCYCLONES_ncep,
     random_indices) = montecarloarrays
@@ -400,54 +389,14 @@ def main():
              Ks_era5=None, Kb_era5=None,Kc_era5=None, dP_era5=None, Kw14_era5=None,
             Ks_ncep=None, Kb_ncep=None,Kc_ncep=None, dP_ncep=None, Kw14_ncep=None)
 
-    # first, calculate fluxes for bias tests
-
-    tests = [f"_trainbias{i}" for i in range(-10,12,2)]
     '''
-    ntests = len(tests)
-    Parallel(n_jobs = ntests)(delayed(calcflux)(rows, iters, test,
-                     outputpath,
-                     SPerror, PTerror, XN2Oerror, biasedpN2Oarrays[count],
-                     U10_era5error, msl_era5error,
-                     U10_nceperror, msl_nceperror,
-                     SI_era5error,
-                     random_indices,
-                     Ks_era5=None, Kb_era5=None,Kc_era5=None, dP_era5=None, Kw14_era5=None,
-                    Ks_ncep=None, Kb_ncep=None,Kc_ncep=None, dP_ncep=None, Kw14_ncep=None) for count, test in enumerate(tests))
-    
-    '''
-    for count, test in enumerate(tests):
-        print(f"running test {test}")
-        Foutput, Frandmean, Frandstdev, combined_mean, combined_uncertainty, method_correlation_matrix, method_covariances = calcflux(rows, iters, test,
-                     outputpath,
-                     SPerror, PTerror, XN2Oerror, biasedpN2Oarrays[count],
-                     U10_era5error, msl_era5error,
-                     U10_nceperror, msl_nceperror,
-                     SI_era5error,
-                     random_indices,
-                     Ks_era5=None, Kb_era5=None,Kc_era5=None, dP_era5=None, Kw14_era5=None,
-                    Ks_ncep=None, Kb_ncep=None,Kc_ncep=None, dP_ncep=None, Kw14_ncep=None)
-    '''
-
     tests = ["observed", "baseline", "noice", "1atm", "medmsl", "meanmsl", "medK", "meanK", "medN2O",
         "meanN2O", "WINDS", "COMBINED", "CYCLONES"]
-    #ntests = len(tests)
-    #Parallel(n_jobs = ntests)(delayed(sensitivitytest)(montecarloarrays, outputpath, test=t) for t in tests)
     
     for t in tests:
         print(f"running test {t}")
         sensitivitytest(montecarloarrays, outputpath, test=t)
-
-
-    inputs = generateinputs()
-    ntests = len(inputs)
-    Parallel(n_jobs = ntests)(delayed(sensitivitytest)(montecarloarrays, outputpath,
-        parameterization = inputs[i][0],
-        windproduct=inputs[i][1],
-        test = inputs[i][2]) for i in range(ntests))
-    
-    #sensitivitytest(pN2Oerror, XN2Oerror, SPerror, PTerror, mslerror, U10_era5error, U10_nceperror, SIerror, mslerrorCYCLONES,
-    #test="observed", windproduct="era5", parameterization = "W14")
     '''
+
 if __name__=="__main__":
     main()
