@@ -378,7 +378,7 @@ def main():
     rows = s[0]
     iters = s[1]
     print(iters)
-    
+    '''
     Foutput, Frandmean, Frandstdev, combined_mean, combined_uncertainty, method_correlation_matrix, method_covariances = calcflux(rows, iters, "observed",
         outputpath,
              SPerror, PTerror, XN2Oerror, pN2Oerror,
@@ -390,13 +390,12 @@ def main():
             Ks_ncep=None, Kb_ncep=None,Kc_ncep=None, dP_ncep=None, Kw14_ncep=None)
 
     '''
-    tests = ["observed", "baseline", "noice", "1atm", "medmsl", "meanmsl", "medK", "meanK", "medN2O",
-        "meanN2O", "WINDS", "COMBINED", "CYCLONES"]
+    tests = ["observed"]#, "baseline", "noice", "1atm", "medmsl", "meanmsl", "medK", "meanK", "medN2O",
+        #"meanN2O", "WINDS", "COMBINED", "CYCLONES"]
     
     for t in tests:
         print(f"running test {t}")
         sensitivitytest(montecarloarrays, outputpath, test=t)
-    '''
 
 if __name__=="__main__":
     main()
