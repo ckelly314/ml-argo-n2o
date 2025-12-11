@@ -2,8 +2,6 @@
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
-> 📝 VERSION FOR REVIEWING PURPOSES ONLY - OFFICIAL VERSION TO BE PUBLISHED ON ZENODO
-
 ## Contents 📚
 
 - [Overview](#overview)
@@ -29,7 +27,7 @@ flowchart TD
     B --> C["🤖 Apply Model to BGC-Argo Profiles to Predict pN₂O"]
     C --> D["🌊 Calculate Air-Sea Fluxes and estimate uncertainty"]
     n1["BGC-Argo Data"] --> C
-    D --> F["📈 Export Results to NetCDF, CSV, Parquet"]
+    D --> F["📈 Plot figures"]
     style A color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style B color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
     style C color:#000000,fill:#FFFFFF,stroke-width:4px,stroke-dasharray: 0,stroke:#000000
@@ -52,14 +50,12 @@ flowchart TD
 
 ### Air-Sea Flux Calculation 🌊
 
-- `flux_uncertainties.py`: Calculates air-sea $$N_2O$$ fluxes using predicted $$pN_2O$$ and associated uncertainties.
+- `flux_uncertainties_v3.py`: Calculates air-sea $$N_2O$$ fluxes using predicted $$pN_2O$$ and associated uncertainties.
 
-- `flux_uncertainties.sh`: Optional example batch script to submit `flux_uncertainties.py` as a batch job to a computer cluster.
+- `flux_uncertainties.sh`: Optional example batch script to submit `flux_uncertainties_v3.py` as a batch job to a computer cluster.
 
-- `assign_fluxes_metadata.py`: Converts output to:
-  - NetCDF format (`.nc`)
-  - Parquet format (`.parquet`)
-  - CSV format (`.csv`) with standardized metadata
+### Plot figures 📊
+- `main_text_figures.ipynb`
 
 ## System Requirements 💻
 
@@ -103,7 +99,7 @@ cd ml-argo-$$N_2O$$
 We recommend setting up a Python virtual environment to avoid dependency conflicts:
 ```bash
 conda env create -f environment.yml
-conda activate ml-argo-$$N_2O$$
+conda activate ml-argo-n2o
 ```
 
 ### Install Time ⏱️
@@ -134,15 +130,20 @@ To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float pr
    ```bash
    sbatch flux_uncertainties.sh
    ```
-5. Export to standard formats:
+5. Plot main text figures from paper:
    ```bash
-   python assign_fluxes_metadata.py
+   main_text_figures.ipynb
    ```
 
 Expected output:
-- Predicted $$N_2O$$ profiles and maps
-- Uncertainty plots
-- Flux estimates in NetCDF, CSV, and Parquet formats
+- Predicted $$N_2O$$ values: **n2opredictions.parquet**
+- Trained models:
+   - **model1_rf_full.joblib**
+   - **model2_rf_full.joblib**
+   - **model3_rf_full.joblib**
+   - **model4_rf_full.joblib**
+- Monte carlo arrays: series of .npy files in datasets/
+- Air-sea fluxes: series of .npy files in datasets/fluxtests/
 
 Expected runtime on a 4-core desktop: ~25 minutes total (slowest step is running flux_uncertainties.py).
 
@@ -158,17 +159,13 @@ To run the pipeline on your own BCG-Argo dataset with paired sea level pressures
 2. Use `applyrf_v2.py` to generate predictions
 3. Use `flux_uncertainties.py` to compute air-sea fluxes
 
-## Results 📊
+## Figures 📊
 
 This pipeline produces the following figures from the associated paper:
 
 - **Figure S15**: Random forest model performance (R², RMSE).
 - **Figure S18**: Predicted $$pN_2O$$ and uncertainty.   
-- **Figure 2**: Southern Ocean $$N_2O$$ flux estimates with uncertainties.
-
-### Reproduce All Manuscript Results
-
-To reproduce all of the figures and key results in the associated paper, refer to the Jupyter notebook `reproduce_results.ipynb`.
+- **Figures 1-5**: Main text figures.
 
 ## License 📄
 This project is licensed under [MIT License](LICENSE).
