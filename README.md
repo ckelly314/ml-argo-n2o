@@ -48,10 +48,7 @@ flowchart TD
 
 - `applyrf_v2.py`: Applies trained Random Forest models to BGC-Argo float profiles to generate predicted partial pressure of $$N_2O$$ ($$pN_2O$$).
 
-- `plot_predictedn2o.py`: Generates:
-  - Maps of predicted $$pN_2O$$ values
-  - Maps of associated uncertainties
-  - Histograms of prediction uncertainty distributions
+- `plot_predictedn2o.py`: Plot maps of predicted n2o and uncertainties; plot histogram of uncertainties.
 
 ### Air-Sea Flux Calculation 🌊
 
@@ -131,7 +128,7 @@ To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float pr
    ```
 4. Calculate air-sea fluxes interactively 🐢:
    ```bash
-   python flux_uncertainties.py
+   python flux_uncertainties_v3.py
    ```
    OR Calculate air-sea fluxes with batch script 🚀:
    ```bash
@@ -165,8 +162,8 @@ To run the pipeline on your own BCG-Argo dataset with paired sea level pressures
 
 This pipeline produces the following figures from the associated paper:
 
-- **Extended Data Fig. 2**: Random forest model performance (R², RMSE).
-- **Extended Data Fig. 4**: Predicted $$pN_2O$$ and uncertainty.   
+- **Figure S15**: Random forest model performance (R², RMSE).
+- **Figure S18**: Predicted $$pN_2O$$ and uncertainty.   
 - **Figure 2**: Southern Ocean $$N_2O$$ flux estimates with uncertainties.
 
 ### Reproduce All Manuscript Results
