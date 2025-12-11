@@ -9,3 +9,11 @@
 
 # figure vector files
 *.pdf
+# Data files
+*.csv
+*.nc
+*.parquet
+datasets/
+argodataset.*
+n2opredictions.parquet
+.ipynb_checkpoints/
