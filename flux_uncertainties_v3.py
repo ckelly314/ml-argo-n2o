@@ -223,7 +223,7 @@ def calcflux(rows, iters, test, outputpath, SPerror, PTerror, XN2Oerror, pN2Oerr
 
 def sensitivitytest(montecarloarrays, outputpath, test="observed"):
 
-    (pN2Oerror,pN2Oerror_bias19, pN2Oerror_bias27, XN2Oerror, SPerror, PTerror,
+    (pN2Oerror,XN2Oerror, SPerror, PTerror,
         msl_era5error, U10_era5error, SI_era5error, mslerrorCYCLONES_era5,
         msl_nceperror, U10_nceperror, SI_nceperror, mslerrorCYCLONES_ncep,
     random_indices) = montecarloarrays
