@@ -26,14 +26,6 @@ def genmontecarlo(iters=None, surface=None, outputpath = 'datasets'):
     pN2Oerror = np.random.normal(loc=pN2O_pred_reshaped, scale=pN2O_sd_reshaped, size=(rows, iters))*1e-9
     np.save(f'{outputpath}/pN2Oerror.npy', pN2Oerror)
     # to re-load: pN2Oerror= np.load(f'{outputpath}/pN2Oerror.npy')
-
-    for count, i in enumerate(range(-10,12,2)):
-        df_trainbias = df_list[count]
-        pN2O_pred_reshaped = np.array(df_trainbias.pN2O_pred).reshape(-1,1)
-        pN2O_sd_reshaped = np.array(df_trainbias.pN2O_predstd).reshape(-1,1)
-        pN2Oerror = np.random.normal(loc=pN2O_pred_reshaped, scale=pN2O_sd_reshaped, size=(rows, iters))*1e-9
-        print(f'saving {outputpath}/pN2Oerror_trainbias{i}.npy')
-        np.save(f'{outputpath}/pN2Oerror_trainbias{i}.npy', pN2Oerror)
     
     XN2O_reshaped = np.array(surface.XN2Oa).reshape(-1,1)
     XN2O_sd_reshaped = np.array(surface.XN2Oa_sd).reshape(-1,1)
