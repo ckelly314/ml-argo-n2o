@@ -82,7 +82,7 @@ def kgas(u10,Sc,*,param="W14"):
 
 
 
-def fsa(C,u10,SP,T,*,slp=1.0,gas=None,param="W14",rh=1,chi_atm=None):
+def fsa(C,u10,SP,T,*,slp=1.0,gas=None,param="W14",rh=1,chi_atm=None, k=None):
     """
     DESCRIPTION
     -------------
@@ -113,11 +113,12 @@ def fsa(C,u10,SP,T,*,slp=1.0,gas=None,param="W14",rh=1,chi_atm=None):
     C_eq = f * eq_SP_pt(SP,T,gas=gas,slp=slp,chi_atm=chi_atm) # apply fugacity factor outside of eq_SP_pt
     Sc = schmidt(SP,T,gas=gas)
     # piston velocity [m s-1]
-    k = kgas(u10,Sc,param=param)
+    if k is None:
+        k = kgas(u10,Sc,param=param)
     Fd = k * (C - C_eq) # don't need slp_corr because it's now built into eq_SP_pt function * slp_corr)
     return Fd
 
-def fsa_pC(pC_w,pC_a,u10,SP,T,*,gas=None,param="W14",chi_atm=None):
+def fsa_pC(pC_w,pC_a,u10,SP,T,*,gas=None,param="W14",chi_atm=None, k=None):
     """
     DESCRIPTION
     -------------
@@ -145,7 +146,8 @@ def fsa_pC(pC_w,pC_a,u10,SP,T,*,gas=None,param="W14",chi_atm=None):
     s = sol_SP_pt(SP,T,chi_atm=chi_atm, gas=gas,units="mM")
     Sc = schmidt(SP,T,gas=gas)
     # piston velocity m s-1
-    k = kgas(u10,Sc,param=param)
+    if k is None:
+        k = kgas(u10,Sc,param=param)
     # m s-1 * mol m-3 atm -1 * atm == mol m-2 s-1
     Fd = k * s * (pC_w - pC_a) / 1e6
     return Fd
