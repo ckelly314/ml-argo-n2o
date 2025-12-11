@@ -130,10 +130,11 @@ To run a full pipeline demo using the October 2024 snapshot of BGC-Argo float pr
    ```bash
    sbatch flux_uncertainties.sh
    ```
+5. Compile and save out data for main text figures:
+Run the notebook **save_figure_data.ipynb**
+
 5. Plot main text figures from paper:
-   ```bash
-   main_text_figures.ipynb
-   ```
+Run the notebook **main_text_figures.ipynb**
 
 Expected output:
 - Predicted $$N_2O$$ values: **n2opredictions.parquet**
@@ -144,6 +145,20 @@ Expected output:
    - **model4_rf_full.joblib**
 - Monte carlo arrays: series of .npy files in datasets/
 - Air-sea fluxes: series of .npy files in datasets/fluxtests/
+- Compiled data for main text figures:
+   - **fig1.csv**
+   - **fig2a.csv**
+   - **fig2b.csv**
+   - **fig3.csv**
+   - **fig4.csv**
+   - **fig5.csv**
+   - **fig5column2.csv**
+- Vector files of main text figures:
+   - **figure1.pdf**
+   - **figure2.pdf**
+   - **figure3.pdf**
+   - **figure4.pdf**
+   - **figure5.pdf**
 
 Expected runtime on a 4-core desktop: ~25 minutes total (slowest step is running flux_uncertainties.py).
 
