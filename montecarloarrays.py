@@ -9,7 +9,6 @@ colette.kelly@whoi.edu
 import numpy as np
 import pandas as pd
 import pyarrow.parquet as pq
-from initialize_paths import initialize_paths
 
 def load_data():
     # base case
