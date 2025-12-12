@@ -2,6 +2,9 @@
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
+**Note that the datasets are archived separately at https://doi.org/10.5281/zenodo.17904982** \\
+To run the code in this repository, download the contents of the data repository above into the "datasets" directory.
+
 ## Contents 📚
 
 - [Overview](#overview)
@@ -11,6 +14,7 @@
 - [Demo](#demo)
 - [Instructions for Use](#instructions-for-use)
 - [Results](#results)
+- [Acknowledgements](#acknowledgements)
 - [License](#license)
 - [Citation](#citation)
 - [Contact](#contact)
@@ -18,9 +22,6 @@
 ## Overview 🌍
 
 This repository contains code to train machine learning models for predicting nitrous oxide ($$N_2O$$) from oceanographic variables and applying those models to Biogeochemical Argo (BGC-Argo) float data. The trained models are then used to estimate air-sea $$N_2O$$ fluxes and their uncertainties.
-
-**Note that the data are archived separately at https://doi.org/10.5281/zenodo.17904982**
-To run the code in this repository, download the contents of the data repository above into the "datasets" directory.
 
 ### Workflow 🔁
 
@@ -184,6 +185,9 @@ This pipeline produces the following figures from the associated paper:
 - **Figure S15**: Random forest model performance (R², RMSE).
 - **Figure S18**: Predicted $$pN_2O$$ and uncertainty.   
 - **Figures 1-5**: Main text figures.
+
+## Acknowledgements 🙌
+Training data were collected and made publicly available by the U.S. Global Ship-based Hydrographic Investigations Program (U.S. GO-SHIP; https://usgoship.ucsd.edu/) and the programs that contribute to it. BGC-Argo data were assembled or collected and made available by the Global Ocean Biogeochemistry Array (GO-BGC) Project funded by the National Science Foundation (NSF grant #OCE-1946578). NCEP-NCAR Reanalysis 1 data was provided by the NOAA PSL, Boulder, Colorado, USA, from their website at https://psl.noaa.gov. 
 
 ## License 📄
 This project is licensed under [MIT License](LICENSE).
