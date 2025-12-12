@@ -2,7 +2,8 @@
 
 [![Research Square Preprint](https://img.shields.io/badge/Preprint-Research%20Square-blue)](https://www.researchsquare.com/article/rs-6378208/v1)
 
-**Note that the datasets are archived separately at https://doi.org/10.5281/zenodo.17904982** \\
+**Note that the datasets are archived separately at https://doi.org/10.5281/zenodo.17904982**
+
 To run the code in this repository, download the contents of the data repository above into the "datasets" directory.
 
 ## Contents 📚
