@@ -60,6 +60,7 @@ flowchart TD
 - `flux_uncertainties.sh`: Optional example batch script to submit `flux_uncertainties_v3.py` as a batch job to a computer cluster.
 
 ### Plot figures 📊
+- `save_figure_data.ipynb`
 - `main_text_figures.ipynb`
 
 ## System Requirements 💻
